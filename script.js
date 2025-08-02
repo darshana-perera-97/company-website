@@ -20,12 +20,12 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('scroll', function() {
             if (window.scrollY > 50) {
                 navbar.classList.add('shadow');
-                navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.backgroundColor = 'rgba(26, 26, 26, 0.95)';
                 navbar.style.backdropFilter = 'blur(10px)';
             } else {
                 navbar.classList.remove('shadow');
-                navbar.style.backgroundColor = 'rgba(255, 255, 255, 1)';
-                navbar.style.backdropFilter = 'none';
+                navbar.style.backgroundColor = 'rgba(26, 26, 26, 0.95)';
+                navbar.style.backdropFilter = 'blur(10px)';
             }
         });
         
