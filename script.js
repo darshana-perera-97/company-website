@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     window.addEventListener('scroll', throttledScrollHandler);
     
-    // Enhanced tech preloader
+    // Enhanced tech preloader with multiple animations
     function addPreloader() {
         const preloader = document.createElement('div');
         preloader.id = 'preloader';
@@ -491,44 +491,359 @@ document.addEventListener('DOMContentLoaded', function() {
             justify-content: center;
             z-index: 9999;
             transition: opacity 0.8s ease;
+            overflow: hidden;
         `;
-        preloader.innerHTML = `
-            <div class="text-center text-white">
-                <div class="tech-spinner mb-4"></div>
-                <h3 class="text-gradient mb-2">Innovexa.lk</h3>
-                <p class="text-light">Loading Innovation...</p>
-                <div class="loading-bar mt-3" style="width: 200px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
-                    <div class="loading-progress" style="width: 0%; height: 100%; background: linear-gradient(90deg, #0d6efd, #6f42c1); border-radius: 2px; transition: width 0.3s ease;"></div>
+        
+        // Create animated background particles
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'preloader-particle';
+            particle.style.cssText = `
+                position: absolute;
+                width: ${2 + Math.random() * 4}px;
+                height: ${2 + Math.random() * 4}px;
+                background: ${['rgba(13, 110, 253, 0.6)', 'rgba(25, 135, 84, 0.6)', 'rgba(111, 66, 193, 0.6)', 'rgba(13, 202, 240, 0.6)'][Math.floor(Math.random() * 4)]};
+                border-radius: 50%;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                animation: preloaderFloat ${3 + Math.random() * 4}s ease-in-out infinite;
+                animation-delay: ${Math.random() * 2}s;
+                box-shadow: 0 0 10px currentColor;
+            `;
+            preloader.appendChild(particle);
+        }
+        
+        preloader.innerHTML += `
+            <div class="preloader-content">
+                <div class="preloader-logo">
+                    <div class="logo-container">
+                        <div class="logo-circle">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="logo-rings">
+                            <div class="ring ring-1"></div>
+                            <div class="ring ring-2"></div>
+                            <div class="ring ring-3"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="preloader-text">
+                    <h2 class="brand-title">Innovexa.lk</h2>
+                    <div class="loading-text">
+                        <span class="loading-char">L</span>
+                        <span class="loading-char">o</span>
+                        <span class="loading-char">a</span>
+                        <span class="loading-char">d</span>
+                        <span class="loading-char">i</span>
+                        <span class="loading-char">n</span>
+                        <span class="loading-char">g</span>
+                        <span class="loading-dots">
+                            <span class="dot">.</span>
+                            <span class="dot">.</span>
+                            <span class="dot">.</span>
+                        </span>
+                    </div>
+                    <p class="loading-subtitle">Preparing Innovation Platform</p>
+                </div>
+                <div class="preloader-progress">
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="progress-text">0%</div>
+                    </div>
+                </div>
+                <div class="preloader-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Modules Loaded</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Systems Ready</span>
+                    </div>
                 </div>
             </div>
         `;
         
         document.body.appendChild(preloader);
         
-        // Animate loading progress
-        const progressBar = preloader.querySelector('.loading-progress');
+        // Add preloader CSS
+        const preloaderStyle = document.createElement('style');
+        preloaderStyle.textContent = `
+            @keyframes preloaderFloat {
+                0%, 100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.4; }
+                25% { transform: translateY(-20px) translateX(10px) scale(1.2); opacity: 0.8; }
+                50% { transform: translateY(-40px) translateX(-10px) scale(0.8); opacity: 1; }
+                75% { transform: translateY(-20px) translateX(20px) scale(1.1); opacity: 0.6; }
+            }
+            
+            .preloader-content {
+                text-align: center;
+                z-index: 10;
+                position: relative;
+            }
+            
+            .preloader-logo {
+                margin-bottom: 2rem;
+            }
+            
+            .logo-container {
+                position: relative;
+                display: inline-block;
+            }
+            
+            .logo-circle {
+                width: 80px;
+                height: 80px;
+                background: linear-gradient(45deg, #0d6efd, #6f42c1);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2rem;
+                color: white;
+                animation: logoPulse 2s ease-in-out infinite;
+                box-shadow: 0 0 30px rgba(13, 110, 253, 0.5);
+            }
+            
+            .logo-rings {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            
+            .ring {
+                position: absolute;
+                border: 2px solid transparent;
+                border-radius: 50%;
+                animation: ringRotate 3s linear infinite;
+            }
+            
+            .ring-1 {
+                width: 100px;
+                height: 100px;
+                border-top-color: #0d6efd;
+                animation-duration: 3s;
+            }
+            
+            .ring-2 {
+                width: 120px;
+                height: 120px;
+                border-right-color: #6f42c1;
+                animation-duration: 4s;
+                animation-direction: reverse;
+            }
+            
+            .ring-3 {
+                width: 140px;
+                height: 140px;
+                border-bottom-color: #198754;
+                animation-duration: 5s;
+            }
+            
+            @keyframes logoPulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+            }
+            
+            @keyframes ringRotate {
+                0% { transform: translate(-50%, -50%) rotate(0deg); }
+                100% { transform: translate(-50%, -50%) rotate(360deg); }
+            }
+            
+            .brand-title {
+                font-size: 2.5rem;
+                font-weight: 700;
+                background: linear-gradient(45deg, #0d6efd, #6f42c1, #198754);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 1rem;
+                animation: titleGlow 3s ease-in-out infinite;
+            }
+            
+            @keyframes titleGlow {
+                0%, 100% { filter: brightness(1); }
+                50% { filter: brightness(1.2); }
+            }
+            
+            .loading-text {
+                font-size: 1.2rem;
+                color: #b0b0b0;
+                margin-bottom: 0.5rem;
+            }
+            
+            .loading-char {
+                display: inline-block;
+                animation: charBounce 1.5s ease-in-out infinite;
+                animation-delay: calc(var(--char-index) * 0.1s);
+            }
+            
+            @keyframes charBounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+            }
+            
+            .loading-dots {
+                display: inline-block;
+            }
+            
+            .dot {
+                display: inline-block;
+                animation: dotPulse 1.5s ease-in-out infinite;
+                animation-delay: calc(var(--dot-index) * 0.3s);
+            }
+            
+            @keyframes dotPulse {
+                0%, 100% { opacity: 0.3; }
+                50% { opacity: 1; }
+            }
+            
+            .loading-subtitle {
+                color: #888;
+                font-size: 0.9rem;
+                margin-bottom: 2rem;
+            }
+            
+            .preloader-progress {
+                margin-bottom: 2rem;
+            }
+            
+            .progress-container {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                justify-content: center;
+            }
+            
+            .progress-bar {
+                width: 300px;
+                height: 6px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 3px;
+                overflow: hidden;
+                position: relative;
+            }
+            
+            .progress-fill {
+                height: 100%;
+                background: linear-gradient(90deg, #0d6efd, #6f42c1, #198754);
+                border-radius: 3px;
+                width: 0%;
+                transition: width 0.3s ease;
+                position: relative;
+            }
+            
+            .progress-fill::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                animation: progressShine 2s ease-in-out infinite;
+            }
+            
+            @keyframes progressShine {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(100%); }
+            }
+            
+            .progress-text {
+                color: #b0b0b0;
+                font-weight: 600;
+                min-width: 40px;
+            }
+            
+            .preloader-stats {
+                display: flex;
+                gap: 2rem;
+                justify-content: center;
+            }
+            
+            .stat-item {
+                text-align: center;
+            }
+            
+            .stat-number {
+                display: block;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: #0d6efd;
+                margin-bottom: 0.25rem;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+                color: #888;
+            }
+        `;
+        document.head.appendChild(preloaderStyle);
+        
+        // Animate loading characters
+        const chars = preloader.querySelectorAll('.loading-char');
+        chars.forEach((char, index) => {
+            char.style.setProperty('--char-index', index);
+        });
+        
+        const dots = preloader.querySelectorAll('.dot');
+        dots.forEach((dot, index) => {
+            dot.style.setProperty('--dot-index', index);
+        });
+        
+        // Animate progress and stats
+        const progressFill = preloader.querySelector('.progress-fill');
+        const progressText = preloader.querySelector('.progress-text');
+        const statNumbers = preloader.querySelectorAll('.stat-number');
+        
         let progress = 0;
+        let modulesLoaded = 0;
+        let systemsReady = 0;
+        
         const progressInterval = setInterval(() => {
-            progress += Math.random() * 15;
+            progress += Math.random() * 8 + 2;
             if (progress > 100) progress = 100;
-            progressBar.style.width = progress + '%';
+            
+            progressFill.style.width = progress + '%';
+            progressText.textContent = Math.floor(progress) + '%';
+            
+            // Update stats
+            if (progress > 25 && modulesLoaded < 5) {
+                modulesLoaded++;
+                statNumbers[0].textContent = modulesLoaded;
+            }
+            if (progress > 75 && systemsReady < 3) {
+                systemsReady++;
+                statNumbers[1].textContent = systemsReady;
+            }
             
             if (progress >= 100) {
                 clearInterval(progressInterval);
+                progressText.textContent = '100%';
+                statNumbers[0].textContent = '5';
+                statNumbers[1].textContent = '3';
             }
-        }, 200);
+        }, 150);
         
         // Remove preloader after page loads
         window.addEventListener('load', function() {
             setTimeout(function() {
-                progressBar.style.width = '100%';
+                progressFill.style.width = '100%';
+                progressText.textContent = '100%';
+                statNumbers[0].textContent = '5';
+                statNumbers[1].textContent = '3';
+                
                 setTimeout(function() {
                     preloader.style.opacity = '0';
                     setTimeout(function() {
                         preloader.remove();
+                        preloaderStyle.remove();
                     }, 800);
-                }, 500);
-            }, 1500);
+                }, 1000);
+            }, 2000);
         });
     }
     
